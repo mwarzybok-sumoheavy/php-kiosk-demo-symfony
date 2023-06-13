@@ -1,0 +1,1 @@
+# php-kiosk-demo-symfony
