@@ -1,0 +1,264 @@
+{% extends "base.html.twig" %}
+
+{% set donation = getBitPayConfiguration().getDonation() %}
+{% set denominations = donation.getDenominations() %}
+{% set maxPrice = donation.getMaxPrice() %}
+
+{% block head_scripts %}
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ asset('js/invoices/donationForm.js') }}"></script>
+    <script type="text/javascript">const donationForm = new DonationForm(
+            '{{ denominations|json_encode() }}',
+            '{{ maxPrice }}'
+        )
+    </script>
+    <script type="text/javascript" src="{{ asset('js/invoices/invoiceSnackBar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/invoices/updateInvoiceFromInvoiceForm.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+        <div class="row payment-info">
+
+            {% for denomination in denominations %}
+                <div id="payment_{{ denomination }}" class="col-3 payment-cell payment"
+                     onclick="donationForm.updateValue({{ denomination }})">
+                    ${{ denomination }}
+                </div>
+            {% endfor %}
+
+            {% if getBitPayConfiguration().getDonation().isEnableOther() %}
+                <div class="col-3 payment-cell payment" id="payment_other">
+                    <input step="0.01" type="number" class="customPayment" name="customPayment" id="customPayment"
+                           onfocus="donationForm.updateCss(); donationForm.updateValue(this.value)"
+                           placeholder="Other (Maximum ${{ maxPrice }})"
+                           onchange="donationForm.updateValue(this.value)"/>
+                </div>
+            {% endif %}
+
+        </div>
+
+        <form action="{{ path('create_invoice') }}" method="post" id="donateForm" class="bitpay-donate">
+            <fieldset>
+                <div class="row payment-info">
+                    <div class="col-3">
+                        <label>Name:</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="inputField  field-input bitpay-donate-field " name="buyerName"
+                               id="buyerName" placeholder="Name" required="true"/>
+                    </div>
+                </div>
+                <div class="row payment-info">
+                    <div class="col-3">
+                        <label>Address:</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="inputField  field-input bitpay-donate-field " name="buyerAddress1"
+                               id="buyerAddress1" placeholder="Address" required="true"/>
+                    </div>
+                </div>
+                <div class="row payment-info">
+                    <div class="col-3">
+                        <label for="buyerAddress2">Address 2:</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="inputField  field-input bitpay-donate-field " name="buyerAddress2"
+                               id="buyerAddress2" placeholder="Address"/>
+                    </div>
+                </div>
+                <div class="row payment-info">
+                    <div class="col-3">
+                        <label>City:</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="inputField  field-input bitpay-donate-field " name="buyerLocality"
+                               id="buyerLocality" placeholder="City" required="true"/>
+                    </div>
+                </div>
+                <div class="row payment-info">
+                    <div class="col-3">
+                        <label>State:</label>
+                    </div>
+                    <div class="col-9">
+                        <select class="inputField bitpay-donate-field field-input" name="buyerRegion" id="buyerRegion"
+                                required="true">
+                            <option value="-" selected="selected">--Select a state--</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="DC">District Of Columbia</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row payment-info">
+                    <div class="col-3">
+                        <label>Zip:</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="inputField  field-input bitpay-donate-field " name="buyerPostalCode"
+                               id="buyerPostalCode" placeholder="Zip Code" required="true"/>
+                    </div>
+                </div>
+                <div class="row payment-info">
+                    <div class="col-3">
+                        <label>Phone Number:</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="inputField field-input bitpay-donate-field " name="buyerPhone"
+                               id="buyerPhone" placeholder="Phone Number" required="true"/>
+                    </div>
+                </div>
+                <div class="row payment-info">
+                    <div class="col-3">
+                        <label>Email:</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="email" class="inputField field-input bitpay-donate-field " name="buyerEmail"
+                               id="buyerEmail" placeholder="Email address" autocapitalize="off"
+                               autocorrect="off" required="true"/>
+                    </div>
+                </div>
+                <input type="hidden" class="inputField field-input bitpay-donate-field " name="donationPrice" id="donationPrice"
+                       placeholder="Amount" required="true"/>
+
+                {% for field in getBitPayConfiguration().getDesign().getPosData().getFields() %}
+                    {% set type = field.getType() %}
+                    <th>
+                        {% if type == 'select' %}
+
+                            <div class="row payment-info">
+                                <div class="col-3">
+                                    <label for="{{ field.getName() }}">{{ field.getLabel() }}</label>
+                                </div>
+                                <div class="col-9">
+                                    <select id="{{ field.getId() }}" name="{{ field.getName() }}" required="{{ field.isRequired() }}" class="bitpay-donate-field field-input">
+                                        <option selected="selected" value=""></option>
+                                        {% for option in field.getOptions() %}
+                                            <option value="{{ option['value'] }}">{{ option['label'] }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                        {% elseif type == 'fieldset' %}
+                            <fieldset>
+                                <div class="row payment-info">
+                                    <div class="col-12">
+                                        <label>{{ field.getLabel() }}</label>
+                                    </div>
+                                </div>
+                                <div class="row payment-info">
+                                    <fieldset class="col-12">
+                                        {% for option in field.getOptions() %}
+                                            <div class="col-3 payment-cell payment">
+                                                <input type="radio" required="{{ field.isRequired() }}" id="{{ option['id'] }}"
+                                                       name="{{ field.getName() }}" value="{{ option['value'] }}" />
+                                                <label for="{{ option['id'] }}">{{ option['label'] }}</label>
+                                            </div>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                            </fieldset>
+
+                        {% elseif type == 'text' %}
+                            <div class="row payment-info">
+                                <div class="col-3">
+                                    <label for="{{ field.getName() }}">{{ field.getLabel() }}</label>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" id="{{ field.getId() }}" name="{{ field.getName() }}"
+                                           required="{{ field.isRequired() }}"
+                                           class="inputField field-input bitpay-donate-field" />
+                                </div>
+                            </div>
+
+                        {% elseif type == 'price' %}
+                            <div class="row payment-info">
+                                <div class="col-3">
+                                    <label for="{{ field.getName() }}">{{ field.getLabel() }}</label>
+                                </div>
+                                <div class="col-9">
+                                    <div class="absolute inset-y-0 left-2 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm"> {{ field.getCurrency() }} </span>
+                                    </div>
+                                    <input type="number" step=".01" id="{{ field.getId() }}"
+                                           name="{{ field.getName() }}" required="{{ field.isRequired() }}"
+                                           class="ml-5 focus:ring-indigo-500 focus:border-indigo-500 block border-gray-300" placeholder="0.00" attr="aria-describedby={{ field.getId() }}-currency" />
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </th>
+
+                {% endfor %}
+
+            </fieldset>
+        </form>
+
+        <div class="row payment-info">
+            <div class="col-12">
+                <p class="disclaimer">{{ donation.getFooterText()}}</p>
+            </div>
+        </div>
+
+        <div class="bitpay-donate-button-wrapper">
+            <input class="bitpay-donate-button" onclick="donationForm.submitForm();return false;"
+                   src="https://bitpay.com/cdn/merchant-resources/pay-with-bitpay-card-group.svg"
+                   onerror="this.onerror=null; this.src='https://test.bitpay.com/cdn/en_US/bp-btn-donate-currencies.svg'"
+                   type="image" alt="BitPay, the easy way to pay with bitcoins."/>
+        </div>
+
+    <script type="text/javascript">new UpdateInvoiceFromInvoiceForm('{{ getSseConfiguration().publicUrl() }}', '{{ sseTopic }}').execute()</script>
+
+{% endblock %}

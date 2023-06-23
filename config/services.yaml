@@ -5,12 +5,22 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+        bind:
+            $applicationUrl: "%env(APP_URL)%"
+            $applicationDir: '%kernel.project_dir%'
+
     App\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    App\Configuration\BitPayConfiguration:
+        factory: ['@App\Configuration\BitPayConfigurationFactoryInterface', 'create']
+
+    App\Service\Invoice\Create\CreateInvoiceValidator:
+        factory: ['@App\Service\Invoice\Create\CreateInvoiceValidatorFactory', 'create']
 
     App\Controller\:
         resource: '../src/Controller/'

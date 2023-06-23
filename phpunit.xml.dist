@@ -18,8 +18,15 @@
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory suffix="Test.php">./tests/Integration</directory>
+            <exclude>./tests/Integration/IntegrationTest.php</exclude>
+        </testsuite>
+        <testsuite name="Functional">
+            <directory suffix="Test.php">./tests/Functional</directory>
         </testsuite>
     </testsuites>
 
@@ -27,6 +34,14 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">./src/Entity</directory>
+            <directory suffix=".php">./src/Repository</directory>
+            <directory suffix=".php">./src/Twig</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="./codeCoverage/html" />
+        </report>
     </coverage>
 
     <listeners>
@@ -34,5 +49,6 @@
     </listeners>
 
     <extensions>
+        <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
     </extensions>
 </phpunit>

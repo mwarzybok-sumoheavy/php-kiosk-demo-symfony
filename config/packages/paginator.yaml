@@ -1,0 +1,3 @@
+knp_paginator:
+  default_options:
+    page_name: page

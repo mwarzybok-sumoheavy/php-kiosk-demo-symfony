@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block head_scripts %}
+    <script type="text/javascript" src="{{ asset('js/invoices/invoiceSnackBar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/invoices/updateInvoiceFromDetailView.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+    <div class="min-h-full">
+        <main>
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+
+                <div class="px-4 py-8 sm:px-0">
+
+                    {% include 'header.html.twig' with {'headerTitle' : 'Invoice Details'} %}
+
+                    <div class="px-6 lg:px-8">
+
+                        <div class="mt-8 flow-root">
+                            <div class="-my-2 -mx-6 overflow-x-auto lg:-mx-8">
+                                <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                    <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+                                        <div class="px-4 py-5 sm:px-6">
+                                            <h3 class="text-lg font-medium leading-6 text-gray-900">General Information</h3>
+                                        </div>
+                                        <div class="border-t border-gray-200 px-4 py-5 sm:p-0" data-uuid="{{ invoice.getUuid() }}">
+                                            <dl class="sm:divide-y sm:divide-gray-200">
+                                                <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                                                    <dt class="text-sm font-medium text-gray-500">ID</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                                        <span>{{ invoice.getBitpayId() }}</span>
+                                                        <span class="inline-flex items-center rounded-full px-3 py-0.5 text-sm font-medium capitalize status grid-status-{{ invoice.getStatus() }}">{{ invoice.getStatus() }}</span>
+                                                    </dd>
+                                                </div>
+                                                <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                                                    <dt class="text-sm font-medium text-gray-500">Price</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                                        <span>$</span>
+                                                        <span>{{ invoice.getPrice()|number_format(2, '.', ',')  }}</span>
+                                                    </dd>
+                                                </div>
+                                                <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                                                    <dt class="text-sm font-medium text-gray-500">Date</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ invoice.getCreatedDate()|date('Y-m-d H:i T') }}</dd>
+                                                </div>
+                                                <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                                                    <dt class="text-sm font-medium text-gray-500">Order ID</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ invoice.getBitpayOrderId() }}</dd>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="text/javascript">new UpdateStatusSse('{{ getSseConfiguration().publicUrl() }}', '{{ sseTopic }}').execute()</script>
+
+{% endblock %}
+

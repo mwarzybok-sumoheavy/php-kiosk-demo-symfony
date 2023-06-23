@@ -1,0 +1,59 @@
+bitpay:
+  facade: pos
+  mode: standard  # standard/donation
+  token:
+  notificationEmail:
+  environment: 'test'
+  design:
+    hero:
+      bgColor: "#100000"
+      title: "BitPay Demo ts"
+      body: "Mattis amet hendrerit dolor, quisque lorem pharetra. Pellentesque lacus nisi urna, arcu sociis eu. Orci vel lectus nisl eget eget ut consectetur. Sit justo viverra non adipisicing elit distinctio."
+    logo: "https://via.placeholder.com/300x75?text=LOGO"
+    posData:
+      fields:
+        - type: "select"
+          required: true
+          id: "store"
+          name: "store"
+          label: "Store"
+          options:
+            - id: "store-1"
+              label: "Store 1"
+              value: "store-1"
+            - id: "store-2"
+              label: "Store 2"
+              value: "store-2"
+        - type: "fieldset"
+          required: true
+          name: "register"
+          label: "Register #"
+          options:
+            - id: "register-1"
+              label: "1"
+              value: "1"
+            - id: "register-2"
+              label: "2"
+              value: "2"
+        - type: "text"
+          required: true
+          id: "reg_transaction_no"
+          name: "reg_transaction_no"
+          label: "Reg/Transaction #"
+        - type: "price"
+          required: true
+          id: "price"
+          name: "price"
+          currency: "USD"
+          label: ''
+  donation:
+    denominations:
+      - 2800
+      - 1000
+      - 500
+      - 100
+      - 50
+    enableOther: true
+    footerText: "Contributions or gifts to RECIPIENT are not tax deductible. Contributions are limited to $10,000 per PAC per election cycle ($5,000 primary and $5,000 general) and $5,600 per individual per election cycle ($2,800 primary and $2,800 general). Contributions from the general treasury funds of corporations, labor unions, and national banks are prohibited. Federal contractors and foreign nationals who are not admitted for permanent residence in the United States are prohibited from making contributions. All contributions must be from personal funds and may not be reimbursed or paid by any other person. Federal law requires us to use our best efforts to collect and report the name, mailing address, occupation, and name of employer of individuals whose contributions exceed $200 in an election cycle."
+    buttonSelectedBgColor: "#2a3f90"
+    buttonSelectedTextColor: "#ffffff"
