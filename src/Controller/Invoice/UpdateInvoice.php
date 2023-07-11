@@ -41,7 +41,7 @@ class UpdateInvoice
             return new Response(null, Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
             $this->logError($e);
-            return new Response('Unable to process update', Response::HTTP_BAD_REQUEST);
+            return new Response('Unable to process update ' . $e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
         return new Response(null, Response::HTTP_NO_CONTENT);
