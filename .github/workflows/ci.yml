@@ -45,6 +45,10 @@ jobs:
         with:
           php_version: ${{ matrix.php-version }}
           args: --ignore-platform-reqs
+      - name: Prepare DB
+        run: |
+          php bin/console doctrine:database:create
+          php bin/console doctrine:schema:update --force --env=test
       - name: PHPUnit Integration Tests
         uses: php-actions/phpunit@v3
         with:
