@@ -26,7 +26,7 @@ jobs:
       - name: PHPUnit Unit Tests
         uses: php-actions/phpunit@v3
         with:
-          configuration: phpunit.xml
+          configuration: phpunit.xml.dist
           php_version: ${{ matrix.php-version }}
           php_extensions: bcmath gmp xdebug
           testsuite: Unit
