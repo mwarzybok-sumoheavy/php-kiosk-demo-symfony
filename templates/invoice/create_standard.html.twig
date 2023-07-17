@@ -1,0 +1,71 @@
+{% extends "base.html.twig" %}
+
+{% block head_scripts %}
+    <script type="text/javascript" src="{{ asset ('js/invoices/invoiceSnackBar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset ('js/invoices/updateInvoiceFromInvoiceForm.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div id="hero" class="relative" style="background-color:{{ getBitPayConfiguration().getDesign().getHero().getBgColor() }}">
+        <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl text-center">{{ getBitPayConfiguration().getDesign().getHero().getTitle() }}</h1>
+            <p class="mt-6 text-xl text-white max-w-3xl text-center m-auto">{{ getBitPayConfiguration().getDesign().getHero().getBody() }}</p>
+        </div>
+    </div>
+
+    <div class="m-auto mt-6 max-w-3xl">
+        <form action="{{ path('create_invoice') }}" method="post">
+            {% for field in getBitPayConfiguration().getDesign().getPosData().getFields() %}
+                {% set fieldType = field.getType() %}
+
+                <div class="mt-4">
+                    {% if fieldType == 'select' %}
+                        <label for="{{ field.getName() }}" class="block text-sm font-medium text-gray-700">{{ field.getLabel() }}</label>
+                        <select id="{{ field.getId() }}" name="{{ field.getName() }}" required="{{ field.isRequired() }}" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                            <option selected="selected" value=""></option>
+                            {% for option in field.getOptions() %}
+                                <option value="{{ option['value'] }}">{{ option['label'] }}</option>
+                            {% endfor %}
+                        </select>
+                    {% elseif fieldType == 'fieldset' %}
+                        <fieldset>
+                            <legend>{{ field.getLabel() }}</legend>
+                            {% for option in field.getOptions() %}
+                                <input type="radio" required="{{ field.isRequired() }}" id="{{ option['id'] }}"
+                                       name="{{ field.getName() }}" value="{{ option['value'] }}" />
+                                <label for="{{ option['id'] }}">{{ option['label'] }}</label>
+                            {% endfor %}
+                        </fieldset>
+                    {% elseif fieldType == 'text' %}
+                        <label for="{{ field.getName() }}" class="block text-sm font-medium text-gray-700">{{ field.getLabel() }}</label>
+                        <div class="mt-1">
+                            <input type="text" id="{{ field.getId() }}" name="{{ field.getName() }}" required="{{ field.isRequired() }}" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                        </div>
+                    {% elseif fieldType == 'price' %}
+                        <label for="{{ field.getName() }}" class="block text-sm font-medium text-gray-700">{{ field.getLabel() }}</label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm"> $ </span>
+                            </div>
+                            <input type="number" step=".01" id="{{ field.getId() }}" name="{{ field.getName() }}" required="{{ field.isRequired() }}" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" attr="aria-describedby={{ field.getId() }}-currency" />
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm" id="{{ field.getId() }}-currency"> {{ field.getCurrency() }} </span>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+            <div class="mt-4 text-center">
+                <button type="submit">
+                    <img src="https://test.bitpay.com/cdn/en_US/bp-btn-pay-currencies.svg" />
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <script type="text/javascript">new UpdateInvoiceFromInvoiceForm('{{ getSseConfiguration().publicUrl() }}', '{{ sseTopic }}').execute()</script>
+{% endblock %}

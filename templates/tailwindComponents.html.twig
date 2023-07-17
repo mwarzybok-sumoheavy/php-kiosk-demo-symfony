@@ -1,0 +1,107 @@
+{% set donation = getBitPayConfiguration().getDonation() %}
+
+<style type="text/tailwindcss">
+    @layer components {
+        .grid-status-new {
+            @apply bg-gray-100 text-gray-800;
+        }
+
+        .grid-status-paid {
+            @apply bg-yellow-100 text-yellow-800;
+        }
+
+        .grid-status-confirmed {
+            @apply bg-blue-100 text-blue-800;
+        }
+
+        .grid-status-complete {
+            @apply bg-green-100 text-green-800;
+        }
+
+        .grid-status-expired, .grid-status-invalid {
+            @apply bg-red-100 text-red-800;
+        }
+
+        .payment-wrapper {
+            @apply w-full p-20
+        }
+        .payment-cell {
+            @apply h-[50px] m-[5px] pt-2.5 bg-gray-300 text-black
+        }
+        .payment-info {
+            @apply pt-2.5
+        }
+        .emailStyle {
+            @apply w-9/10
+        }
+        .wrapper {
+            @apply w-full mx-5
+        }
+        .customPayment {
+            @apply w-[99%] h-[30px] text-black
+        }
+        .headerTop {
+            color: #1C2445;
+        }
+        .headerBottom {
+            color: #1C2445;
+        }
+        .donateButton {
+            background-color: #1C2445 !important;
+            border-color: #1C2445 !important;
+        }
+        .disclaimer {
+            color: #1C2445;
+            @apply mt-5 text-xs
+        }
+        .selectedPayment {
+            background-color: {{ donation.getButtonSelectedBgColor()}};
+            color: {{ donation.getButtonSelectedTextColor()}}
+        }
+        /**bitpay form css**/
+        .bitpay-donate {
+            @apply mt-5 mr-0
+        }
+        .bitpay-donate fieldset {
+            @apply border-0
+        }
+        .bitpay-donate .field-input {
+            @apply text-gray-600 bg-white border border-solid border-gray-300 h-[30px] box-border flex-grow
+        }
+        .bitpay-donate .field-input-wrapper {
+            @apply inline-flex float-none w-4/5
+        }
+        .bitpay-donate input {
+            @apply pr-[10px]
+        }
+        .bitpay-donate select {
+            @apply pt-[3px] pr-[10px]
+        }
+        .bitpay-donate .bitpay-donate-button {
+            @apply pt-[12px] pr-0 w-[188px] box-border
+        }
+        .bitpay-donate ul,
+        .bitpay-donate li {
+            @apply p-0 m-0 list-none
+        }
+        .bitpay-donate li {
+            @apply pt-[10px] pr-0
+        }
+        .bitpay-donate-field {
+            @apply clear-both w-2/5
+        }
+        .bitpay-donate-field label {
+            @apply float-left w-[100px]
+        }
+        .bitpay-donate-field div {
+            @apply float-left
+        }
+        .bitpay-donate-button-wrapper {
+            @apply clear-both mx-auto text-center
+        }
+        input.bitpay-donate-error {
+            @apply border-[2px] border-solid border-red-500
+        }
+    }
+
+</style>

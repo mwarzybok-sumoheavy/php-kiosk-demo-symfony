@@ -1,0 +1,10 @@
+App\Entity\Invoice\Invoice:
+  attributes:
+    createdDate:
+      contexts:
+        - denormalization_context:
+            bitpayTime: true
+    expirationTime:
+      contexts:
+        - denormalization_context:
+            bitpayTime: true
