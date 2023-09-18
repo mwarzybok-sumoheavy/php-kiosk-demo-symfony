@@ -1,4 +1,4 @@
-FROM httpd:2.4.57-alpine
+FROM httpd:2.4-alpine
 
 ARG PHP_UPSTREAM_CONTAINER=php-fpm
 ARG PHP_UPSTREAM_PORT=9000
