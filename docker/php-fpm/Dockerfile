@@ -115,6 +115,12 @@ ENV PGID ${PGID}
 ARG LOCALE=POSIX
 ENV LC_ALL ${LOCALE}
 
+RUN apk add shadow
+
+RUN adduser www-data www-data
+RUN groupmod -o -g ${PGID} www-data && \
+    usermod -o -u ${PUID} -g www-data www-data
+
 WORKDIR /var/www
 
 CMD ["php-fpm"]

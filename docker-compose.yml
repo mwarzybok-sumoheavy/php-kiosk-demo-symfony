@@ -4,10 +4,10 @@ services:
   php-fpm:
     build:
       context: ./docker/php-fpm
-    working_dir: /var/www/html
+    working_dir: /usr/local/apache2/htdocs/php-kiosk-symfony
     volumes:
       - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini
-      - ./:/var/www/html/php-kiosk-demo-symfony
+      - ./:/usr/local/apache2/htdocs/php-kiosk-symfony
     expose:
       - "9000"
     networks:
@@ -19,13 +19,16 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./docker/apache2/sites:/etc/apache2/sites-available
-      - ./docker/apache2/ssl:/etc/apache2/ssl
-      - ./:/var/www/html/php-kiosk-demo-symfony
+      - ./docker/apache2/sites/default.apache.conf:/usr/local/apache2/conf/extra/default.apache.conf
+     # - ./docker/apache2/ssl:/etc/apache2/ssl
+      - ./:/usr/local/apache2/htdocs/php-kiosk-symfony
     depends_on:
       - php-fpm
     networks:
       - bitpay
+    #command: cat /usr/local/apache2/conf/httpd-dav.conf
+    command: ["httpd-foreground"]
+   # command: ls -lha /usr/local/apache2/htdocs/php-kiosk-symfony/public
 
   mercure:
     build:

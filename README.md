@@ -106,7 +106,7 @@ values.
 
 - `add php-kiosk-demo-symfony.test to your OS hosts`
 - `docker-compose up`
-- `composer install` from php-fpm container (docker-compose exec --user=www-data php-fpm bash & cd php-kiosk-demo-symfony)
+- `composer install` from php-fpm container (docker-compose exec --user=1000 php-fpm bash & cd php-kiosk-demo-symfony)
 - `cp .env .env.local` and configure it
 - `cp application-example.yaml application.yaml` and configure it
 - `php doctrine:database:create` to create DB
