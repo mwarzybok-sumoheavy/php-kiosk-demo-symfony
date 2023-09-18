@@ -20,15 +20,12 @@ services:
       - "80:80"
     volumes:
       - ./docker/apache2/sites/default.apache.conf:/usr/local/apache2/conf/extra/default.apache.conf
-     # - ./docker/apache2/ssl:/etc/apache2/ssl
       - ./:/usr/local/apache2/htdocs/php-kiosk-symfony
     depends_on:
       - php-fpm
     networks:
       - bitpay
-    #command: cat /usr/local/apache2/conf/httpd-dav.conf
     command: ["httpd-foreground"]
-   # command: ls -lha /usr/local/apache2/htdocs/php-kiosk-symfony/public
 
   mercure:
     build:
