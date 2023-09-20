@@ -104,11 +104,10 @@ values.
 
 ## Running
 
-- `composer install`
+- `add php-kiosk-demo-symfony.test to your OS hosts`
 - `cp .env .env.local` and configure it
 - `cp application-example.yaml application.yaml` and configure it
-- `php doctrine:database:create` to create DB
-- `php doctrine:schema:update --force`
+- `docker-compose up`
 
 ## Testing
 

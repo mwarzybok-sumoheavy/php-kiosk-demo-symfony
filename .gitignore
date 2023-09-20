@@ -23,6 +23,7 @@
 
 application.yaml
 application-functional.yaml
+bitpay.sqlite
 
 ###> squizlabs/php_codesniffer ###
 /.phpcs-cache
